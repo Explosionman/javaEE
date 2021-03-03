@@ -1,47 +1,74 @@
 package ru.rybinskov.repository;
 
-import ru.rybinskov.persist.Category;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.rybinskov.entities.Category;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.UserTransaction;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
+
 
 @Named
 @ApplicationScoped
 public class CategoryRepository {
 
-    private final Map<Long, Category> categoryMap = new ConcurrentHashMap<>();
+    private static final Logger logger = LoggerFactory.getLogger(ProductRepository.class);
 
-    private final AtomicLong identity = new AtomicLong(0);
+    @PersistenceContext(unitName = "ds")
+    private EntityManager em;
+
+    @Resource
+    private UserTransaction ut;
 
     @PostConstruct
-    public void init() {
-        this.saveOrUpdate(new Category(null, "Напитки", "всё что пьётся"));
-        this.saveOrUpdate(new Category(null, "Фрукты", "арбуз тоже ягода"));
+    public void init() throws Exception {
+        if (countAll() == 0) {
+            try {
+                ut.begin();
+
+                saveOrUpdate(new Category(null, "Category  1",
+                        "Description of category 1"));
+                saveOrUpdate(new Category(null, "Category  2",
+                        "Description of category 2"));
+                saveOrUpdate(new Category(null, "Category  3",
+                        "Description of category 3"));
+                ut.commit();
+            } catch (Exception ex) {
+                logger.error("", ex);
+                ut.rollback();
+            }
+        }
     }
 
+
     public List<Category> findAll() {
-        return new ArrayList<>(categoryMap.values());
+        return em.createNativeQuery("findAllCategories", Category.class).getResultList();
     }
 
     public Category findById(Long id) {
-        return categoryMap.get(id);
+        return em.find(Category.class, id);
+    }
+
+    public Long countAll() {
+        return em.createNamedQuery("countAllCategories", Long.class)
+                .getSingleResult();
     }
 
     public void saveOrUpdate(Category category) {
         if (category.getId() == null) {
-            Long id = identity.incrementAndGet();
-            category.setId(id);
+            em.persist(category);
         }
-        categoryMap.put(category.getId(), category);
+        em.merge(category);
     }
 
     public void deleteById(Long id) {
-        categoryMap.remove(id);
+        em.createNativeQuery("deleteCategoryById").setParameter("id", id).executeUpdate();
     }
 }
+

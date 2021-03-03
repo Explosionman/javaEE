@@ -1,11 +1,24 @@
-package ru.rybinskov.persist;
+package ru.rybinskov.entities;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "category_tbl")
+@NamedQueries({
+        @NamedQuery(name = "findAllCategories", query = "from Category"),
+        @NamedQuery(name = "countAllCategories", query = "select count(*) from Category"),
+        @NamedQuery(name = "deleteCategoryById", query = "delete from Category c where c.id = :id")
+})
 public class Category {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name_fld")
     private String name;
 
+    @Column(name = "description_fld")
     private String description;
 
     public Category() {
