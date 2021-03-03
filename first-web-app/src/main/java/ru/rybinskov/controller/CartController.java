@@ -1,6 +1,6 @@
 package ru.rybinskov.controller;
 
-import ru.rybinskov.persist.Product;
+import ru.rybinskov.entities.Product;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Named
 @SessionScoped

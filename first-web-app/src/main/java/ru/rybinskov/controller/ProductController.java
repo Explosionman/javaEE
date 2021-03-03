@@ -1,6 +1,6 @@
 package ru.rybinskov.controller;
 
-import ru.rybinskov.persist.Product;
+import ru.rybinskov.entities.Product;
 import ru.rybinskov.repository.ProductRepository;
 
 import javax.enterprise.context.SessionScoped;
