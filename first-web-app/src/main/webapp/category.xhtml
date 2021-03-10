@@ -17,6 +17,8 @@
 
 <h:body>
 
+    <f:event listener="#{categoryController.preloadData}" type="preRenderView"/>
+
     <ui:include src="WEB-INF/fragments/navigation.xhtml">
         <ui:param name="pageName" value="Category"></ui:param>
     </ui:include>

@@ -17,6 +17,8 @@
 
 <h:body>
 
+    <f:event listener="#{productController.preloadData}" type="preRenderView"/>
+
     <ui:include src="WEB-INF/fragments/navigation.xhtml">
         <ui:param name="pageName" value="Product"></ui:param>
     </ui:include>
@@ -25,6 +27,10 @@
     <div class="container">
         <div class="row py-2">
             <h:form id="productForm">
+                <div class="col-12">
+                    <h:commandButton value="Add product" styleClass="btn btn-primary"
+                                     action="#{productController.createProduct}"/>
+                </div>
                 <div class="col-12">
                     <h:outputFormat value="Products in cart: {0}">
                         <f:param value="#{cartController.cartSize}"/>
@@ -45,6 +51,10 @@
                         <h:column>
                             <f:facet name="header">Description</f:facet>
                             #{product.description}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Category</f:facet>
+                            #{product.categoryName}
                         </h:column>
                         <h:column>
                             <f:facet name="header">Price</f:facet>

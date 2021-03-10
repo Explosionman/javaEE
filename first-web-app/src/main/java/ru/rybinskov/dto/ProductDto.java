@@ -1,8 +1,11 @@
-package ru.rybinskov.service;
+package ru.rybinskov.dto;
+
+import ru.rybinskov.entities.Category;
+import ru.rybinskov.entities.Product;
 
 import java.math.BigDecimal;
 
-public class ProductRepr {
+public class ProductDto {
 
     private Long id;
 
@@ -15,6 +18,19 @@ public class ProductRepr {
     private Long categoryId;
 
     private String categoryName;
+
+    public ProductDto() {
+    }
+
+    public ProductDto(Product product) {
+        this.id = product.getId();
+        this.name = product.getName();
+        this.description = product.getDescription();
+        this.price = product.getPrice();
+        Category category = product.getCategory();
+        this.categoryId = category != null ? category.getId() : null;
+        this.categoryName = category != null ? category.getName() : null;
+    }
 
     public Long getId() {
         return id;

@@ -1,6 +1,9 @@
 package ru.rybinskov.entities;
 
+import ru.rybinskov.dto.CategoryDto;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "category_tbl")
@@ -21,6 +24,9 @@ public class Category {
     @Column(name = "description_fld")
     private String description;
 
+    @OneToMany(mappedBy = "category")
+    private List<Product> productList;
+
     public Category() {
     }
 
@@ -28,6 +34,10 @@ public class Category {
         this.id = id;
         this.name = name;
         this.description = description;
+    }
+
+    public Category(CategoryDto categoryDto) {
+        this(categoryDto.getId(), categoryDto.getName(), categoryDto.getDescription());
     }
 
     public Long getId() {
@@ -52,5 +62,13 @@ public class Category {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
     }
 }
