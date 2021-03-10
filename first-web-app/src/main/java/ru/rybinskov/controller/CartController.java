@@ -1,35 +1,34 @@
 package ru.rybinskov.controller;
 
-import ru.rybinskov.entities.Product;
+import ru.rybinskov.dto.ProductDto;
+import ru.rybinskov.service.CartService;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Named
 @SessionScoped
 public class CartController implements Serializable {
 
-    private Map<Long, Product> productMap = new HashMap<>();
+    @EJB
+    private CartService cartService;
 
-
-    public void addToCart(Product product) {
-        productMap.put(product.getId(), product);
+    public List<ProductDto> getAllProductsInCart() {
+        return cartService.getProductsInCart();
     }
 
-    public List<Product> getAllProducts() {
-        return new ArrayList<>(productMap.values());
+    public void addToCart(ProductDto productDto) {
+        cartService.addToCart(productDto);
     }
 
-    public void removeFromCart(Product product) {
-        productMap.remove(product.getId());
+    public void removeFromCart(ProductDto productDto) {
+        cartService.removeFromCart(productDto);
     }
 
     public int getCartSize() {
-        return productMap.size();
+        return cartService.getSize();
     }
 }

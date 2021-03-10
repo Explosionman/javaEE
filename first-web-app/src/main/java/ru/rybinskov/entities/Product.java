@@ -1,8 +1,9 @@
 package ru.rybinskov.entities;
 
+import ru.rybinskov.dto.ProductDto;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Table(name = "products_tbl")
@@ -26,13 +27,17 @@ public class Product {
     @Column(name = "price_fld")
     private BigDecimal price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinTable(name = "products_categories_tbl",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @ManyToOne
     private Category category;
 
     public Product() {
+    }
+
+    public Product(Long id, String name, String description, BigDecimal price) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.price = price;
     }
 
     public Product(Long id, String name, String description, BigDecimal price, Category category) {
@@ -40,6 +45,11 @@ public class Product {
         this.name = name;
         this.description = description;
         this.price = price;
+        this.category = category;
+    }
+
+    public Product(ProductDto productDto, Category category) {
+        this(productDto.getId(), productDto.getName(), productDto.getDescription(), productDto.getPrice());
         this.category = category;
     }
 
