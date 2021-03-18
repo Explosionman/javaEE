@@ -8,7 +8,9 @@
     <artifactId>java-ee</artifactId>
     <version>1</version>
     <modules>
+        <module>product-service-api</module>
         <module>first-web-app</module>
+        <module>remote-client</module>
     </modules>
     <packaging>pom</packaging>
 

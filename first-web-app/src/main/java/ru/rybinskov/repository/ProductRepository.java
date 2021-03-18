@@ -40,4 +40,12 @@ public class ProductRepository {
     public void deleteById(Long id) {
         em.createNamedQuery("deleteProductById").setParameter("id", id).executeUpdate();
     }
+
+    public Product findByName(String name) {
+        return em.createNamedQuery("findProductByName", Product.class).setParameter("name", name).getSingleResult();
+    }
+
+    public List<Product> findAllByCategoryId(Long categoryId) {
+        return em.createNamedQuery("findProductsByCategoryId", Product.class).setParameter("category_id", categoryId).getResultList();
+    }
 }

@@ -1,0 +1,64 @@
+GET http://127.0.0.1:8080/first-web-app/api/v1/product
+
+###
+
+GET http://localhost:8080/first-web-app/api/v1/product/2
+
+###
+
+POST http://127.0.0.1:8080/first-web-app/api/v1/product
+Content-Type: application/json
+
+{
+  "categoryId": 3,
+  "categoryName": "продукты",
+  "description": "Описание 1",
+  "id": null,
+  "name": "asd",
+  "price": 2500.00
+}
+
+###
+
+GET http://localhost:8080/first-web-app/api/v1/product/name
+Content-Type: application/json
+
+{
+  "name": "asd"
+}
+
+###
+
+PUT http://127.0.0.1:8080/first-web-app/api/v1/product
+Content-Type: application/json
+
+{
+  "categoryId": 2,
+  "categoryName": "Категория 2",
+  "description": "Новое описание",
+  "id": 2,
+  "name": "Новое название",
+  "price": 250.00
+}
+
+###
+
+DELETE http://127.0.0.1:8080/first-web-app/api/v1/product/2
+
+###
+
+GET http://127.0.0.1:8080/first-web-app/api/v1/categories
+
+
+###
+
+POST http://127.0.0.1:8080/first-web-app/api/v1/categories
+Content-Type: application/json
+
+{
+  "description": "Описание 4",
+  "id": 4,
+  "name": "Категория 222"
+}
+
+###
