@@ -1,8 +1,5 @@
 package ru.rybinskov.dto;
 
-import ru.rybinskov.entities.Category;
-import ru.rybinskov.entities.Product;
-
 import java.math.BigDecimal;
 
 public class ProductDto {
@@ -20,16 +17,6 @@ public class ProductDto {
     private String categoryName;
 
     public ProductDto() {
-    }
-
-    public ProductDto(Product product) {
-        this.id = product.getId();
-        this.name = product.getName();
-        this.description = product.getDescription();
-        this.price = product.getPrice();
-        Category category = product.getCategory();
-        this.categoryId = category != null ? category.getId() : null;
-        this.categoryName = category != null ? category.getName() : null;
     }
 
     public Long getId() {
