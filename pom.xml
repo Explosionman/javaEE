@@ -11,6 +11,7 @@
         <module>product-service-api</module>
         <module>first-web-app</module>
         <module>remote-client</module>
+        <module>ws-client</module>
     </modules>
     <packaging>pom</packaging>
 
