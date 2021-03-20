@@ -17,7 +17,9 @@
 
 <h:body>
 
-    <ui:include src="WEB-INF/fragments/navigation.xhtml">
+    <f:event listener="#{userController.preloadData}" type="preRenderView"/>
+
+    <ui:include src="/WEB-INF/fragments/navigation.xhtml">
         <ui:param name="pageName" value="User"></ui:param>
     </ui:include>
 
@@ -38,11 +40,11 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">Name</f:facet>
-                            #{user.name}
+                            #{user.login}
                         </h:column>
                         <h:column>
                             <f:facet name="header">Role</f:facet>
-                            #{user.role}
+                            #{user.roles}
                         </h:column>
                         <h:column>
                             <f:facet name="header">Actions</f:facet>

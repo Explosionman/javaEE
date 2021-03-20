@@ -18,7 +18,7 @@
 
 <h:body>
 
-    <ui:include src="WEB-INF/fragments/navigation.xhtml">
+    <ui:include src="/WEB-INF/fragments/navigation.xhtml">
         <ui:param name="pageName" value="User"></ui:param>
     </ui:include>
 
@@ -29,17 +29,27 @@
                     <input type="hidden" id="id" name="id"/>
                     <div class="form-group">
                         <label>Name</label>
-                        <h:inputText styleClass="form-control" id="name" value="#{userController.user.name}"
-                                     placeholder="Enter name"/>
+                        <h:inputText styleClass="form-control" id="login" value="#{userController.user.login}"
+                                     placeholder="Enter login"/>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <h:inputText styleClass="form-control" id="password" value="#{userController.user.password}"
+                                     placeholder="Enter password"/>
                     </div>
                     <div class="form-group">
                         <label>Role</label>
-                        <h:inputText styleClass="form-control" id="role"
-                                     value="#{userController.user.role}"
-                                     placeholder="Enter role"/>
+                        <h:selectManyCheckbox styleClass="form-control" id="role"
+                                            value="#{userController.user.roles}">
+                            <f:selectItems value="#{userController.roles}"
+                                           var="role"
+                                           itemValue="#{role.id}"
+                                           itemLabel="#{role.name}"
+                                           />
+                        </h:selectManyCheckbox>
                     </div>
                     <h:commandButton value="Submit" styleClass="btn btn-primary"
-                                     action="#{categoryController.saveCategory()}"/>
+                                     action="#{userController.saveUser()}"/>
                 </h:form>
             </div>
         </div>

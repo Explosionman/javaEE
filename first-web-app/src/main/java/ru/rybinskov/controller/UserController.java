@@ -1,51 +1,101 @@
 package ru.rybinskov.controller;
 
-import ru.rybinskov.persist.User;
-import ru.rybinskov.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.rybinskov.dto.RoleDto;
+import ru.rybinskov.dto.UserDto;
+import ru.rybinskov.service.RoleService;
+import ru.rybinskov.service.UserService;
 
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Named
 @SessionScoped
 public class UserController implements Serializable {
 
-    @Inject
-    private UserRepository userRepository;
+    Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    private User user;
+    @EJB
+    private UserService userService;
 
-    public User getUser() {
+    @EJB
+    private RoleService roleService;
+
+    private UserDto user;
+
+    private List<RoleDto> userRoles;
+
+    private List<UserDto> users;
+
+    private List<RoleDto> roles;
+
+
+    public void preloadData(ComponentSystemEvent componentSystemEvent) {
+        users = userService.findAll();
+        roles = roleService.findAll();
+    }
+
+    public List<RoleDto> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<RoleDto> userRoles) {
+        this.userRoles = userRoles;
+    }
+
+    public UserDto getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(UserDto user) {
         this.user = user;
     }
 
     public String createUser() {
-        this.user = new User();
-        return "user_form.xhtml?faces-redirect=true";
+        this.user = new UserDto();
+        user.setRoles(roles);
+        return "/admin/user_form.xhtml?faces-redirect=true";
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        return userService.findAll();
     }
 
-    public String editUser(User user) {
+    public String editUser(UserDto user) {
         this.user = user;
-        return "user_form.xhtml?faces-redirect=true";
+        return "/admin/user_form.xhtml?faces-redirect=true";
     }
 
-    public void deleteUser(User user) {
-        userRepository.deleteById(user.getId());
+    public void deleteUser(UserDto user) {
+        userService.deleteById(user.getId());
     }
 
     public String saveUser() {
-        userRepository.saveOrUpdate(user);
-        return "user.xhtml?faces-redirect=true";
+        logger.info(user.toString());
+        userService.saveOrUpdate(user);
+        return "/admin/user.xhtml?faces-redirect=true";
+    }
+
+    public List<UserDto> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserDto> users) {
+        this.users = users;
+    }
+
+    public List<RoleDto> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleDto> roles) {
+        this.roles = roles;
     }
 }

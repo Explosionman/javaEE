@@ -10,7 +10,9 @@ import ru.rybinskov.service.ProductService;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.event.ComponentSystemEvent;
+import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.util.List;
 
@@ -23,6 +25,9 @@ public class ProductController implements Serializable {
 
     @EJB
     private CategoryService categoryService;
+
+    @Inject
+    private HttpSession httpSession;
 
     private ProductDto product;
 
@@ -45,7 +50,7 @@ public class ProductController implements Serializable {
 
     public String createProduct() {
         this.product = new ProductDto();
-        return "product_form.xhtml?faces-redirect=true";
+        return "/product_form.xhtml?faces-redirect=true";
     }
 
     public List<ProductDto> getAllProducts() {
@@ -54,7 +59,7 @@ public class ProductController implements Serializable {
 
     public String editProduct(ProductDto product) {
         this.product = product;
-        return "product_form.xhtml?faces-redirect=true";
+        return "/product_form.xhtml?faces-redirect=true";
     }
 
     public void deleteProduct(ProductDto product) {
@@ -63,7 +68,7 @@ public class ProductController implements Serializable {
 
     public String saveProduct() {
         productService.saveOrUpdate(product);
-        return "product.xhtml?faces-redirect=true";
+        return "/product.xhtml?faces-redirect=true";
     }
 
     public List<CategoryDto> getCategories() {
@@ -72,5 +77,10 @@ public class ProductController implements Serializable {
 
     public void setCategories(List<CategoryDto> categories) {
         this.categories = categories;
+    }
+
+    public String logout() {
+        httpSession.invalidate();
+        return "/product.xhtml?faces-redirect=true";
     }
 }
