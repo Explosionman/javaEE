@@ -3,6 +3,7 @@ package ru.rybinskov.service;
 import ru.rybinskov.dto.CategoryDto;
 import ru.rybinskov.entities.Category;
 import ru.rybinskov.repository.CategoryRepository;
+import ru.rybinskov.rest.CategoryRestService;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Stateless
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService, CategoryRestService {
 
     @EJB
     private CategoryRepository categoryRepository;
@@ -31,6 +32,21 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public Long countAll() {
         return categoryRepository.countAll();
+    }
+
+    @Override
+    public void update(CategoryDto categoryDto) {
+        if (categoryDto.getId() != null) {
+            saveOrUpdate(categoryDto);
+        }
+    }
+
+    @Override
+    public void save(CategoryDto categoryDto) {
+        if(categoryDto.getId() == null) {
+            throw new IllegalArgumentException();
+        }
+        saveOrUpdate(categoryDto);
     }
 
     @TransactionAttribute
